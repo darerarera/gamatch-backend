@@ -10,7 +10,7 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__, static_folder='../static')
-    CORS(app)  # Enable CORS for frontend interaction
+    CORS(app, resources={r"/api/*": {"origins": "https://moccasin-donkey-838708.hostingersite.com"}})
 
     # Flask Configurations
     app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", "default-secret-key")
