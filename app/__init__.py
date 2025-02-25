@@ -10,7 +10,13 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__, static_folder='../static')
-    CORS(app, resources={r"/api/*": {"origins": "https://moccasin-donkey-838708.hostingersite.com"}})
+    
+    # Configure CORS properly to allow requests from your frontend
+    CORS(app, 
+         resources={r"/api/*": {"origins": "https://moccasin-donkey-838708.hostingersite.com"}},
+         supports_credentials=True,
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+         allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Origin"])
 
     # Flask Configurations
     app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", "default-secret-key")
@@ -29,5 +35,14 @@ def create_app():
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')
+    
+    # Add a global after_request handler to ensure CORS headers are set
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', 'https://moccasin-donkey-838708.hostingersite.com')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        return response
 
     return app
