@@ -56,4 +56,12 @@ def create_app():
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')
     
+    # Buat tabel database jika belum ada
+    with app.app_context():
+        try:
+            db.create_all()
+            print("Database tables created successfully!")
+        except Exception as e:
+            print(f"Error creating database tables: {str(e)}")
+    
     return app
