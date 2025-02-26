@@ -1,14 +1,24 @@
 {
-  "env": {
-    "DATABASE_URL": "postgresql://neondb_owner:npg_eKmXIj89vaJu@ep-proud-frost-a1gwj4jx-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require",
-    "SECRET_KEY": "11111111",
-    "MAIL_USERNAME": "timgemilanglolos@gmail.com",
-    "MAIL_PASSWORD": "ywvpgartwsaahlyf"
-  },
   "builds": [
-    { "src": "run.py", "use": "@vercel/python" }
+    {
+      "src": "run.py",
+      "use": "@vercel/python",
+      "config": { 
+        "runtime": "python3.9",
+        "maxLambdaSize": "15mb"
+      }
+    }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "run.py" }
-  ]
+  ],
+  "env": {
+    "DB_USER": "neondb_owner",
+    "DB_PASSWORD": "npg_eKmXIj89vaJu",
+    "DB_HOST": "ep-proud-frost-a1gwj4jx-pooler.ap-southeast-1.aws.neon.tech",
+    "DB_NAME": "neondb",
+    "SECRET_KEY": "11111111",
+    "MAIL_USERNAME": "timgemilanglolos@gmail.com",
+    "MAIL_PASSWORD": "ywvpgartwsaahlyf"
+  }
 }

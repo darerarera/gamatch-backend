@@ -21,23 +21,26 @@ def create_app():
     # Flask Configurations
     app.config['SECRET_KEY'] = os.getenv("SECRET_KEY", "default-secret-key")
 
-    # Database Configuration
-    database_url = os.getenv("DATABASE_URL")
-    if not database_url:
-          print("Warning: DATABASE_URL is not set!")
-          database_url = "sqlite:///database.db"  # Fallback
-    elif database_url.startswith("postgres://"):
-          database_url = database_url.replace("postgres://", "postgresql://", 1)
+    # Database Configuration - Gunakan pg8000 sebagai driver
+    db_user = os.getenv("DB_USER", "neondb_owner")
+    db_password = os.getenv("DB_PASSWORD", "npg_eKmXIj89vaJu")
+    db_host = os.getenv("DB_HOST", "ep-proud-frost-a1gwj4jx-pooler.ap-southeast-1.aws.neon.tech")
+    db_name = os.getenv("DB_NAME", "neondb")
+    
+    # Buat string koneksi dengan pg8000
+    database_url = f"postgresql+pg8000://{db_user}:{db_password}@{db_host}/{db_name}?ssl=true"
+    
+    print(f"Using database: {db_host}/{db_name}")
     
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking for performance
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Mail Configurations
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
-    app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+    app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME", "timgemilanglolos@gmail.com")
+    app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD", "ywvpgartwsaahlyf")
 
     # Initialize extensions
     db.init_app(app)
@@ -47,5 +50,3 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api')
     
     return app
-
-print("DATABASE_URL:", os.getenv("DATABASE_URL"))  # Cek apakah URL terbaca
