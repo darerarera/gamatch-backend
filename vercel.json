@@ -7,9 +7,9 @@
     { "src": "/(.*)", "dest": "/run.py" }
   ],
   "env": {
-    "SECRET_KEY": "@secret_key",
-    "MAIL_USERNAME": "@mail_username",
-    "MAIL_PASSWORD": "@mail_password",
-    "DATABASE_URL": "@database_url"
+    "SECRET_KEY": "SECRET_KEY",
+    "MAIL_USERNAME": "MAIL_USERNAME",
+    "MAIL_PASSWORD": "MAIL_PASSWORD",
+    "DATABASE_URL": "DATABASE_URL"
   }
 }
