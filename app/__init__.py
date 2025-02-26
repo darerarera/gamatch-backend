@@ -13,7 +13,7 @@ def create_app():
     
     # Configure CORS properly to allow requests from your frontend
     CORS(app, 
-         resources={r"/api/*": {"origins": "http://gamatcg.com"}},
+         resources={r"/api/*": {"origins": "https://gamatcg.com"}},
          supports_credentials=True,
          methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
          allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Origin"])
