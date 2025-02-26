@@ -13,7 +13,7 @@ def create_app():
     
     # Configure CORS properly to allow requests from your frontend
     CORS(app, 
-         resources={r"/api/*": {"origins": "https://moccasin-donkey-838708.hostingersite.com"}},
+         resources={r"/api/*": {"origins": "http://gamatcg.com"}},
          supports_credentials=True,
          methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
          allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Origin"])
@@ -36,13 +36,4 @@ def create_app():
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')
     
-    # Add a global after_request handler to ensure CORS headers are set
-    @app.after_request
-    def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', 'https://moccasin-donkey-838708.hostingersite.com')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        return response
-
     return app
