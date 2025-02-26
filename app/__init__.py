@@ -46,3 +46,5 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api')
     
     return app
+
+print("DATABASE_URL:", os.getenv("DATABASE_URL"))  # Cek apakah URL terbaca
